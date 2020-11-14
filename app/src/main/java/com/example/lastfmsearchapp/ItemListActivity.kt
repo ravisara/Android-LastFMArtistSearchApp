@@ -12,8 +12,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 
 import com.example.lastfmsearchapp.dummy.DummyContent
+import com.example.lastfmsearchapp.viewmodel.InitialSearchViewModel
 
 /**
  * An activity representing a list of Pings. This activity
@@ -25,6 +28,7 @@ import com.example.lastfmsearchapp.dummy.DummyContent
  */
 class ItemListActivity : AppCompatActivity() {
 
+    private lateinit var initialSearchViewModel: InitialSearchViewModel
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -32,6 +36,7 @@ class ItemListActivity : AppCompatActivity() {
     private var twoPane: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
 
@@ -39,9 +44,12 @@ class ItemListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.title = title
 
+        initialSearchViewModel = ViewModelProvider(this).get(InitialSearchViewModel::class.java)
+
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+            initialSearchViewModel.fetchSearchResults()
         }
 
         if (findViewById<NestedScrollView>(R.id.item_detail_container) != null) {
@@ -53,6 +61,12 @@ class ItemListActivity : AppCompatActivity() {
         }
 
         setupRecyclerView(findViewById(R.id.item_list))
+
+        val initialSearchResultObserver = Observer<String> { it -> DummyContent.ITEMS.add(1, DummyContent.DummyItem("200", it, it))
+
+        }
+        initialSearchViewModel.responseReceived.observe(this, initialSearchResultObserver)
+
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {

@@ -2,23 +2,28 @@ package com.example.lastfmsearchapp.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 
-/*API key: 2f6d1c3a77d7364fe9c8b7d955a56e11
-
+/*
+API key: 2f6d1c3a77d7364fe9c8b7d955a56e11
 Shared secret: 6f2327ff8b4d7ca6813f250b4aa35984
-
-Registered to: NowOneFineUser*/
+Registered to: NowOneFineUser
+Sample URL format: http://ws.audioscrobbler.com/2.0/?method=album.search&album=believe&api_key=YOUR_API_KEY&format=json
+http://ws.audioscrobbler.com/2.0/?method=album.search&album=believe&api_key=2f6d1c3a77d7364fe9c8b7d955a56e11&format=json
+*/
 
 const val API_KEY = "2f6d1c3a77d7364fe9c8b7d955a56e11"
 
 class InitialSearchViewModel(application: Application) : AndroidViewModel(application) {
 
-    // http://ws.audioscrobbler.com/2.0/?method=album.search&album=believe&api_key=YOUR_API_KEY&format=json
+    private val _responseReceived = MutableLiveData<String>()
+    val responseReceived: LiveData<String> = _responseReceived
 
     fun fetchSearchResults(keyWordsToSearchFor: String = "believe") { // TODO remove this default text
 
@@ -26,17 +31,19 @@ class InitialSearchViewModel(application: Application) : AndroidViewModel(applic
         val queue = Volley.newRequestQueue(getApplication()) // TODO review
 
         val url =
-            "http://ws.audioscrobbler.com/2.0/?method=album.search&album=${keyWordsToSearchFor}&api_key=${API_KEY}&format=json"
+            "https://ws.audioscrobbler.com/2.0/?method=album.search&album=${keyWordsToSearchFor}&api_key=${API_KEY}&format=json"
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url,
             null,
             { response ->
                 println("Response: %s".format(response.toString()))
+                _responseReceived.value = response.toString()
             },
             { error ->
                 // TODO: Handle error
                 println("That didn't work!")
+                _responseReceived.value = "That didn't work!\r" + error.message
             }
         )
 
@@ -69,6 +76,5 @@ class InitialSearchViewModel(application: Application) : AndroidViewModel(applic
             queue.add(stringRequest) */
 
     }
-
 
 }
