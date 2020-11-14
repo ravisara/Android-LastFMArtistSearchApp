@@ -31,10 +31,10 @@ class InitialSearchViewModel(application: Application) : AndroidViewModel(applic
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url,
             null,
-            Response.Listener { response ->
+            { response ->
                 println("Response: %s".format(response.toString()))
             },
-            Response.ErrorListener { error ->
+            { error ->
                 // TODO: Handle error
                 println("That didn't work!")
             }
