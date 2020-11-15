@@ -2,6 +2,10 @@ package com.example.lastfmsearchapp.utility
 
 import org.json.JSONObject
 
+object GlobalConstants { // GlobalConstants just an arbitrary name used as a namespace
+    const val API_KEY = "2f6d1c3a77d7364fe9c8b7d955a56e11"
+}
+
 // It is easier to unit test when this is outside of the ViewModel
 fun parseJSONObjectAndExtractDataForDisplaying(jsonObj: JSONObject): MutableList<MutableMap<String, String>> {
 
