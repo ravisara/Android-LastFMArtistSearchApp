@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.lastfmsearchapp.utility.GlobalConstants.API_KEY
 import com.example.lastfmsearchapp.utility.parseJSONObjectAndExtractDataForDisplaying
 import org.json.JSONObject
 
@@ -23,7 +24,7 @@ Song(track) search:
     https://ws.audioscrobbler.com/2.0/?method=track.search&track=Believe&api_key=2f6d1c3a77d7364fe9c8b7d955a56e11&format=json
 */
 
-const val API_KEY = "2f6d1c3a77d7364fe9c8b7d955a56e11"
+
 
 class InitialSearchViewModel(application: Application) : AndroidViewModel(application) {
 
