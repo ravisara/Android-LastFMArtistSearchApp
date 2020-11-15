@@ -60,21 +60,22 @@ class ItemListActivity : AppCompatActivity() {
             twoPane = true
         }
 
-        setupRecyclerView(findViewById(R.id.item_list))
+        val initialSearchResultObserver = Observer<MutableList<MutableMap<String, String>>> { it -> //DummyContent.ITEMS.add(1, DummyContent.DummyItem("200", it, it))
 
-        val initialSearchResultObserver = Observer<String> { it -> DummyContent.ITEMS.add(1, DummyContent.DummyItem("200", it, it))
+            setupRecyclerView(findViewById(R.id.item_list), it)
 
         }
         initialSearchViewModel.responseReceived.observe(this, initialSearchResultObserver)
 
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+    private fun setupRecyclerView(recyclerView: RecyclerView, dataToShow: MutableList<MutableMap<String, String>> ) {
+        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, dataToShow, twoPane)
     }
 
+    // TODO move recyclerview out of this class.
     class SimpleItemRecyclerViewAdapter(private val parentActivity: ItemListActivity,
-                                        private val values: List<DummyContent.DummyItem>,
+                                        private val values: MutableList<MutableMap<String, String>>,
                                         private val twoPane: Boolean) :
             RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
@@ -110,8 +111,10 @@ class ItemListActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
-            holder.idView.text = item.id
-            holder.contentView.text = item.content
+            holder.idView.text = (position + 1).toString()
+            //holder.contentView.text = item.forEach { (key, value) -> "$key : $value \n" }.toString()
+            val textToShow = "Name: " + item.getValue("name") + "/n" + "Listeners: " + item.getValue("listeners")
+            holder.contentView.text = textToShow
 
             with(holder.itemView) {
                 tag = item
