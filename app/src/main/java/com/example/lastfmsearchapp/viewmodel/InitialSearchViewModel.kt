@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.lastfmsearchapp.utility.parseJSONObjectAndExtractDataForDisplaying
 import org.json.JSONObject
 
 /*
@@ -46,8 +47,8 @@ class InitialSearchViewModel(application: Application) : AndroidViewModel(applic
             { response ->
                 println("Response: %s".format(response.toString()))
                 //_responseReceived.value = response.toString()
-                parseJasonObjectAndSetLiveDataForDisplaying(response)
-
+                val resultDataForDisplay = parseJSONObjectAndExtractDataForDisplaying(response)
+                _responseReceived.value = resultDataForDisplay // instead of postvalue as we are calling from the main thread.
             },
             { error ->
                 // TODO: Handle error
@@ -61,9 +62,9 @@ class InitialSearchViewModel(application: Application) : AndroidViewModel(applic
 
     }
 
-    fun parseJasonObjectAndSetLiveDataForDisplaying(jsonObj: JSONObject) {
+    /*fun parseJasonObjectAndSetLiveDataForDisplaying(jsonObj: JSONObject) {
 
-        val artists =  jsonObj.getJSONArray("artistmatches")
+        val artists =  jsonObj.getJSONArray("artist")
         lateinit var allArtistsInfoToShow: MutableList<MutableMap<String, String>> // TODO REVIEW LATEINIT
         var infoOfAnArtistToShow: MutableMap<String, String>
         var artistItem: JSONObject
@@ -75,7 +76,7 @@ class InitialSearchViewModel(application: Application) : AndroidViewModel(applic
 
         _responseReceived.value = allArtistsInfoToShow // instead of postvalue as we are calling from the main thread.
 
-    }
+    }*/
 
     // TODO handle errors
     /*fun parseJasonObjectAndSetLiveDataForDisplaying(jsonObj: JSONObject) {
