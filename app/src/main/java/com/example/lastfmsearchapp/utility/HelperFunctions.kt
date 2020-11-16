@@ -32,6 +32,9 @@ fun parseAnArtistInfoJSONObjectAndExtractDataForDisplaying(jsonObj: JSONObject):
     val artistBioSummary =  jsonObj.getJSONObject("artist").getJSONObject("bio").getString("summary")
     allInfoOfArtistToShow["artistbiosummary"] = artistBioSummary
 
+    val photoURL = jsonObj.getJSONObject("artist").getJSONArray("image").getJSONObject(2).getString("#text")
+    allInfoOfArtistToShow["imageURL"] = photoURL
+
     return allInfoOfArtistToShow
 
 }

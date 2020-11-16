@@ -1,6 +1,7 @@
 package com.example.lastfmsearchapp.viewmodel
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +9,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.lastfmsearchapp.utility.GlobalConstants.API_KEY
+import com.example.lastfmsearchapp.utility.SingletonForVolleyLibrary
 import com.example.lastfmsearchapp.utility.parseAnArtistInfoJSONObjectAndExtractDataForDisplaying
 import com.example.lastfmsearchapp.utility.parseArtistsJSONObjectAndExtractDataForDisplaying
 
@@ -38,8 +40,8 @@ class SearchArtistOnLastFMViewModel(application: Application) : AndroidViewModel
     // TODO find a clever way of reporting errors.
     fun fetchSearchResults(keyWordsToSearchFor: String) { // TODO remove this default text
 
-        // Instantiate the RequestQueue.
-        val queue = Volley.newRequestQueue(getApplication()) // TODO review
+        // Instantiate the RequestQueue - using the Google recommended way.
+        val queue = SingletonForVolleyLibrary.getInstance(getApplication()).requestQueue
 
         val url =
             "https://ws.audioscrobbler.com/2.0/?method=artist.search&artist=${keyWordsToSearchFor}&api_key=${API_KEY}&format=json"
@@ -57,7 +59,6 @@ class SearchArtistOnLastFMViewModel(application: Application) : AndroidViewModel
             { error ->
                 // TODO: Handle error
                 println("That didn't work!")
-                //_responseReceived.value = "That didn't work!\r" + error.message
                 val allArtistsInfoToShow = mutableListOf<MutableMap<String, String>>()
                 val errorMessageToShow = error?.message ?: "Unknown error"
                 val errorMessage =  mutableMapOf("ErrorMessage" to errorMessageToShow)
@@ -65,8 +66,8 @@ class SearchArtistOnLastFMViewModel(application: Application) : AndroidViewModel
             }
         )
 
-        // Add the request to the RequestQueue.
-        queue.add(jsonObjectRequest)
+       // Add a request (in this example, called stringRequest) to your RequestQueue.
+        SingletonForVolleyLibrary.getInstance(getApplication()).addToRequestQueue(jsonObjectRequest)
 
     }
 
@@ -76,8 +77,8 @@ class SearchArtistOnLastFMViewModel(application: Application) : AndroidViewModel
     * */
     fun fetchArtistInformation(artistNameToSearchFor: String) {
 
-        // Instantiate the RequestQueue.
-        val queue = Volley.newRequestQueue(getApplication())
+        // Instantiate the RequestQueue - using the Google recommended way.
+        val queue = SingletonForVolleyLibrary.getInstance(getApplication()).requestQueue
 
         val url =
             "https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistNameToSearchFor}&api_key=${API_KEY}&format=json"
@@ -101,7 +102,8 @@ class SearchArtistOnLastFMViewModel(application: Application) : AndroidViewModel
         )
 
         // Add the request to the RequestQueue.
-        queue.add(jsonObjectRequest)
+        SingletonForVolleyLibrary.getInstance(getApplication()).addToRequestQueue(jsonObjectRequest)
+
     }
 
 }
