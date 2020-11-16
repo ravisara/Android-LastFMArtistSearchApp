@@ -15,7 +15,6 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
-import com.example.lastfmsearchapp.dummy.DummyContent
 import com.example.lastfmsearchapp.viewmodel.InitialSearchViewModel
 
 /**
@@ -65,7 +64,7 @@ class ItemListActivity : AppCompatActivity() {
             setupRecyclerView(findViewById(R.id.item_list), it)
 
         }
-        initialSearchViewModel.responseReceived.observe(this, initialSearchResultObserver)
+        initialSearchViewModel.artistsSearchResponseReceived.observe(this, initialSearchResultObserver)
 
     }
 
@@ -81,12 +80,12 @@ class ItemListActivity : AppCompatActivity() {
 
         private val onClickListener: View.OnClickListener
 
-        init {
+        /*init {
             onClickListener = View.OnClickListener { v ->
                 val item = v.tag as DummyContent.DummyItem
                 if (twoPane) {
                     val fragment = ItemDetailFragment().apply {
-                        arguments = Bundle().apply {
+                        arguments = Bundle().apply {//apply the following assignment to the object.
                             putString(ItemDetailFragment.ARG_ITEM_ID, item.id)
                         }
                     }
@@ -95,8 +94,30 @@ class ItemListActivity : AppCompatActivity() {
                             .replace(R.id.item_detail_container, fragment)
                             .commit()
                 } else {
-                    val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
+                    val intent = Intent(v.context, ItemDetailActivity::class.java).apply { // apply the following assignments to the object.
                         putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id)
+                    }
+                    v.context.startActivity(intent)
+                }
+            }
+        }*/
+
+        init {
+            onClickListener = View.OnClickListener { v ->
+                val item = v.tag as MutableMap<String, String>
+                if (twoPane) {
+                    val fragment = ItemDetailFragment().apply {
+                        arguments = Bundle().apply {//apply the following assignment to the object.
+                            putString(ItemDetailFragment.ARG_ARTIST_NAME, item["name"])
+                        }
+                    }
+                    parentActivity.supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.item_detail_container, fragment)
+                        .commit()
+                } else {
+                    val intent = Intent(v.context, ItemDetailActivity::class.java).apply { // apply the following assignments to the object.
+                        putExtra(ItemDetailFragment.ARG_ARTIST_NAME, item["name"])
                     }
                     v.context.startActivity(intent)
                 }
@@ -116,6 +137,7 @@ class ItemListActivity : AppCompatActivity() {
             val textToShow = "Name: " + item.getValue("name") + "/n" + "Listeners: " + item.getValue("listeners")
             holder.contentView.text = textToShow
 
+            // With this object, do the following.
             with(holder.itemView) {
                 tag = item
                 setOnClickListener(onClickListener)

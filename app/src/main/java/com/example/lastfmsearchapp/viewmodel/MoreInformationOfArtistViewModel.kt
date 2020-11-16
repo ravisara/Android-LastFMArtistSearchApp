@@ -6,7 +6,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.lastfmsearchapp.utility.GlobalConstants.API_KEY
-import com.example.lastfmsearchapp.utility.parseJSONObjectAndExtractDataForDisplaying
+import com.example.lastfmsearchapp.utility.parseArtistsJSONObjectAndExtractDataForDisplaying
 
 /*
 * https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=Cher&api_key=YOUR_API_KEY&format=json
@@ -28,7 +28,7 @@ class MoreInformationOfArtistViewModel(application: Application) : AndroidViewMo
             null,
             { response ->
                 println("Response: %s".format(response.toString()))
-                val resultDataForDisplay = parseJSONObjectAndExtractDataForDisplaying(response)
+                val resultDataForDisplay = parseArtistsJSONObjectAndExtractDataForDisplaying(response)
             },
             { error ->
                 // TODO: Handle error
