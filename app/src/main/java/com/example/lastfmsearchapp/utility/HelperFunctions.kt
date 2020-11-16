@@ -7,7 +7,7 @@ object GlobalConstants { // GlobalConstants just an arbitrary name used as a nam
 }
 
 // It is easier to unit test when this is outside of the ViewModel
-fun parseJSONObjectAndExtractDataForDisplaying(jsonObj: JSONObject): MutableList<MutableMap<String, String>> {
+fun parseArtistsJSONObjectAndExtractDataForDisplaying(jsonObj: JSONObject): MutableList<MutableMap<String, String>> {
 
     //val artists =  jsonObj.getJSONArray("artist")
     val artists =  jsonObj.getJSONObject("results").getJSONObject("artistmatches").getJSONArray("artist")
@@ -23,5 +23,16 @@ fun parseJSONObjectAndExtractDataForDisplaying(jsonObj: JSONObject): MutableList
     }
 
     return allArtistsInfoToShow
+
+}
+
+fun parseAnArtistInfoJSONObjectAndExtractDataForDisplaying(jsonObj: JSONObject): MutableMap<String, String> {
+
+    val allInfoOfArtistToShow = mutableMapOf<String, String>()
+
+    val artistBioSummary =  jsonObj.getJSONObject("artist").getJSONObject("bio").getString("summary")
+    allInfoOfArtistToShow["artistbiosummary"] = artistBioSummary
+
+    return allInfoOfArtistToShow
 
 }
