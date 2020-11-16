@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">LastFMSearchApp</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="artist_name_to_search_on_lastfm">Artist name to search on LastFM</string>
 </resources>

@@ -46,9 +46,19 @@ class ItemListActivity : AppCompatActivity() {
         initialSearchViewModel = ViewModelProvider(this).get(InitialSearchViewModel::class.java)
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "More information of selected artist will be loaded", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-            initialSearchViewModel.fetchSearchResults()
+            val keywordToSearchForArtistName = findViewById<TextView>(R.id.searchKeywordTextView).text.toString()
+            if(keywordToSearchForArtistName.isEmpty()) {
+                Snackbar.make(view, "Artist name cannot be blank", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+                return@setOnClickListener
+            } else if( keywordToSearchForArtistName.length < 2 ) {
+                Snackbar.make(view, "Artist name must have at least 2 characters", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+                return@setOnClickListener
+            }
+            initialSearchViewModel.fetchSearchResults(keywordToSearchForArtistName)
         }
 
         if (findViewById<NestedScrollView>(R.id.item_detail_container) != null) {

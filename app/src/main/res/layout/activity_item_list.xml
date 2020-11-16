@@ -19,6 +19,14 @@
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/Theme.LastFMSearchApp.PopupOverlay" />
 
+        <EditText
+            android:id="@+id/searchKeywordTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/artist_name_to_search_on_lastfm"
+            android:autofillHints="text"
+            android:inputType="text" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
@@ -36,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@android:drawable/ic_search_category_default"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
