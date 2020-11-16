@@ -2,17 +2,15 @@ package com.example.lastfmsearchapp.utility
 
 import org.json.JSONObject
 
-object GlobalConstants { // GlobalConstants just an arbitrary name used as a namespace
+object GlobalConstants { // GlobalConstants is just an arbitrary name used as a namespace
     const val API_KEY = "2f6d1c3a77d7364fe9c8b7d955a56e11"
 }
 
-// It is easier to unit test when this is outside of the ViewModel
+// It is easier to unit test when this is outside of the ViewModel. Ran out of time to implement error handling on this.
 fun parseArtistsJSONObjectAndExtractDataForDisplaying(jsonObj: JSONObject): MutableList<MutableMap<String, String>> {
 
-    //val artists =  jsonObj.getJSONArray("artist")
     val artists =  jsonObj.getJSONObject("results").getJSONObject("artistmatches").getJSONArray("artist")
 
-    //var allArtistsInfoToShow = mutableListOf<kotlin.collections.mutableMapOf<String, String>()> // TODO REVIEW LATEINIT
     val allArtistsInfoToShow = mutableListOf<MutableMap<String, String>>()
     var infoOfAnArtistToShow: MutableMap<String, String>
     var artistItem: JSONObject
@@ -26,6 +24,7 @@ fun parseArtistsJSONObjectAndExtractDataForDisplaying(jsonObj: JSONObject): Muta
 
 }
 
+// It is easier to unit test when this is outside of the ViewModel. Ran out of time to implement error handling on this.
 fun parseAnArtistInfoJSONObjectAndExtractDataForDisplaying(jsonObj: JSONObject): MutableMap<String, String> {
 
     val allInfoOfArtistToShow = mutableMapOf<String, String>()

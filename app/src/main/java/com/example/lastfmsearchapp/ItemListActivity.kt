@@ -33,6 +33,7 @@ class ItemListActivity : AppCompatActivity() {
      * device.
      */
     private var twoPane: Boolean = false
+    private var okToContinue = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -59,6 +60,21 @@ class ItemListActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             initialSearchViewModel.fetchSearchResults(keywordToSearchForArtistName)
+
+            val initialSearchResultObserver = Observer<MutableList<MutableMap<String, String>>> { it ->
+
+                if(it[0].containsKey("ErrorMessage")) {
+                    Snackbar.make(view, it[0].getValue("ErrorMessage"), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                    okToContinue = false // TODO This might not be necessary.
+                    return@Observer
+                }
+                setupRecyclerView(findViewById(R.id.item_list), it)
+
+            }
+
+            initialSearchViewModel.artistsSearchResponseReceived.observe(this, initialSearchResultObserver)
+
         }
 
         if (findViewById<NestedScrollView>(R.id.item_detail_container) != null) {
@@ -68,13 +84,6 @@ class ItemListActivity : AppCompatActivity() {
             // activity should be in two-pane mode.
             twoPane = true
         }
-
-        val initialSearchResultObserver = Observer<MutableList<MutableMap<String, String>>> { it -> //DummyContent.ITEMS.add(1, DummyContent.DummyItem("200", it, it))
-
-            setupRecyclerView(findViewById(R.id.item_list), it)
-
-        }
-        initialSearchViewModel.artistsSearchResponseReceived.observe(this, initialSearchResultObserver)
 
     }
 
@@ -89,28 +98,6 @@ class ItemListActivity : AppCompatActivity() {
             RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
         private val onClickListener: View.OnClickListener
-
-        /*init {
-            onClickListener = View.OnClickListener { v ->
-                val item = v.tag as DummyContent.DummyItem
-                if (twoPane) {
-                    val fragment = ItemDetailFragment().apply {
-                        arguments = Bundle().apply {//apply the following assignment to the object.
-                            putString(ItemDetailFragment.ARG_ITEM_ID, item.id)
-                        }
-                    }
-                    parentActivity.supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.item_detail_container, fragment)
-                            .commit()
-                } else {
-                    val intent = Intent(v.context, ItemDetailActivity::class.java).apply { // apply the following assignments to the object.
-                        putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id)
-                    }
-                    v.context.startActivity(intent)
-                }
-            }
-        }*/
 
         init {
             onClickListener = View.OnClickListener { v ->
@@ -142,10 +129,8 @@ class ItemListActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
-            holder.idView.text = (position + 1).toString()
-            //holder.contentView.text = item.forEach { (key, value) -> "$key : $value \n" }.toString()
-            val textToShow = "Name: " + item.getValue("name") + "/n" + "Listeners: " + item.getValue("listeners")
-            holder.contentView.text = textToShow
+            holder.contentView1.text = "Artist name: " + item.getValue("name")
+            holder.contentView2.text = "Number of listeners: " + item.getValue("listeners")
 
             // With this object, do the following.
             with(holder.itemView) {
@@ -157,8 +142,8 @@ class ItemListActivity : AppCompatActivity() {
         override fun getItemCount() = values.size
 
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val idView: TextView = view.findViewById(R.id.id_text)
-            val contentView: TextView = view.findViewById(R.id.content)
+            val contentView1: TextView = view.findViewById(R.id.contentLine1)
+            val contentView2: TextView = view.findViewById(R.id.contentLine2)
         }
     }
 }
