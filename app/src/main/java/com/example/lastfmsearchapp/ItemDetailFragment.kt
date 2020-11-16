@@ -19,7 +19,6 @@ import com.example.lastfmsearchapp.viewmodel.InitialSearchViewModel
  */
 class ItemDetailFragment : Fragment() {
 
-
     private lateinit var initialSearchViewModel: InitialSearchViewModel // TODO rename the varname, change the var name to something more sensible
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,13 +28,8 @@ class ItemDetailFragment : Fragment() {
 
         arguments?.let {
             if (it.containsKey(ARG_ARTIST_NAME)) {
-
                 initialSearchViewModel.fetchArtistInformation(it.getString(ARG_ARTIST_NAME)!!) // TODO review the !!
-
-                //val searchResultObserver = Observer
-
-                //activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = item?.content
-
+                activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = "Artist : ${it.getString(ARG_ARTIST_NAME)!!}"
             }
         }
 
