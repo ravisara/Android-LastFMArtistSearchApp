@@ -23,7 +23,8 @@ Song(track) search:
     https://ws.audioscrobbler.com/2.0/?method=track.search&track=Believe&api_key=2f6d1c3a77d7364fe9c8b7d955a56e11&format=json
 */
 
-class InitialSearchViewModel(application: Application) : AndroidViewModel(application) {
+// TODO ideally, connecting to the API should have done in a separate Repository class and MVVM followed the repository pattern.
+class SearchArtistOnLastFMViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _artistsSearchResponseReceived =
         MutableLiveData<MutableList<MutableMap<String, String>>>()

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.lastfmsearchapp.viewmodel.InitialSearchViewModel
+import com.example.lastfmsearchapp.viewmodel.SearchArtistOnLastFMViewModel
 
 /**
  * A fragment representing a single Item detail screen.
@@ -19,16 +19,16 @@ import com.example.lastfmsearchapp.viewmodel.InitialSearchViewModel
  */
 class ItemDetailFragment : Fragment() {
 
-    private lateinit var initialSearchViewModel: InitialSearchViewModel // TODO rename the varname, change the var name to something more sensible
+    private lateinit var searchArtistOnLastFMViewModel: SearchArtistOnLastFMViewModel // TODO rename the varname, change the var name to something more sensible
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        initialSearchViewModel = ViewModelProvider(this).get(InitialSearchViewModel::class.java)
+        searchArtistOnLastFMViewModel = ViewModelProvider(this).get(SearchArtistOnLastFMViewModel::class.java)
 
         arguments?.let {
             if (it.containsKey(ARG_ARTIST_NAME)) {
-                initialSearchViewModel.fetchArtistInformation(it.getString(ARG_ARTIST_NAME)!!) // TODO review the !!
+                searchArtistOnLastFMViewModel.fetchArtistInformation(it.getString(ARG_ARTIST_NAME)!!) // TODO review the !!
                 activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = "Artist : ${it.getString(ARG_ARTIST_NAME)!!}"
             }
         }
@@ -44,7 +44,7 @@ class ItemDetailFragment : Fragment() {
             rootView.findViewById<TextView>(R.id.item_detail).text = it["artistbiosummary"]
         }
 
-        initialSearchViewModel.artistInfoSearchResponseReceived.observe(viewLifecycleOwner, artistInfoSearchResultObserver)
+        searchArtistOnLastFMViewModel.artistInfoSearchResponseReceived.observe(viewLifecycleOwner, artistInfoSearchResultObserver)
 
         return rootView
     }

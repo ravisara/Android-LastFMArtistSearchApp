@@ -15,7 +15,7 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
-import com.example.lastfmsearchapp.viewmodel.InitialSearchViewModel
+import com.example.lastfmsearchapp.viewmodel.SearchArtistOnLastFMViewModel
 
 /**
  * An activity representing a list of Pings. This activity
@@ -27,7 +27,7 @@ import com.example.lastfmsearchapp.viewmodel.InitialSearchViewModel
  */
 class ItemListActivity : AppCompatActivity() {
 
-    private lateinit var initialSearchViewModel: InitialSearchViewModel
+    private lateinit var searchArtistOnLastFMViewModel: SearchArtistOnLastFMViewModel
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -44,7 +44,7 @@ class ItemListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.title = title
 
-        initialSearchViewModel = ViewModelProvider(this).get(InitialSearchViewModel::class.java)
+        searchArtistOnLastFMViewModel = ViewModelProvider(this).get(SearchArtistOnLastFMViewModel::class.java)
 
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
             Snackbar.make(view, "More information of selected artist will be loaded", Snackbar.LENGTH_LONG)
@@ -59,7 +59,7 @@ class ItemListActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
                 return@setOnClickListener
             }
-            initialSearchViewModel.fetchSearchResults(keywordToSearchForArtistName)
+            searchArtistOnLastFMViewModel.fetchSearchResults(keywordToSearchForArtistName)
 
             val initialSearchResultObserver = Observer<MutableList<MutableMap<String, String>>> { it ->
 
@@ -73,7 +73,7 @@ class ItemListActivity : AppCompatActivity() {
 
             }
 
-            initialSearchViewModel.artistsSearchResponseReceived.observe(this, initialSearchResultObserver)
+            searchArtistOnLastFMViewModel.artistsSearchResponseReceived.observe(this, initialSearchResultObserver)
 
         }
 
