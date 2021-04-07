@@ -11,11 +11,11 @@ Tested with API 29. Should work with some lower ones as well.
 # Usage: 
 Type a name of an artist in the search field. The App can search for artists using the "Last.fm Music Discovery API" and display as a list or artists on a RecyclerViewer. When an artist is tapped on, further information about the artist is fetched using the LastFM API and shown in a different screen.
 
-<p align="center">
+<p>
   <img src="https://github.com/ravisara/LastFMArtistSearchApp/blob/ba15662f42c8cbd1be532c2301404d99e9fced79/documentation/LastFMSearchAppScreenshot01.png" width="200">
   <img src="https://github.com/ravisara/LastFMArtistSearchApp/blob/ba15662f42c8cbd1be532c2301404d99e9fced79/documentation/LastFMSearchAppScreenshot02.png" width="200">
 </p>
-<p align="center">
+<p>
   <img src="https://github.com/ravisara/LastFMArtistSearchApp/blob/ba15662f42c8cbd1be532c2301404d99e9fced79/documentation/LastFMSearchAppScreenshot03.png" width="200">
   <img src="https://github.com/ravisara/LastFMArtistSearchApp/blob/ba15662f42c8cbd1be532c2301404d99e9fced79/documentation/LastFMSearchAppScreenshot04.png" width="200">
 </p>
